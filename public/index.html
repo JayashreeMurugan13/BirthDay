@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 20th Birthday! 🎂✨</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Quicksand for a premium, cute aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Quicksand', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #ecfeff 0%, #e0f2fe 50%, #f5f3ff 100%);
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.4);
+            border-radius: 999px;
+        }
+
+        /* Background flotation animations */
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(4deg); }
+        }
+        @keyframes float-medium {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(-6deg); }
+        }
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.6)); }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4deg); }
+        }
+        @keyframes card-glow {
+            0%, 100% { box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.2), 0 0 15px rgba(147, 197, 253, 0.3); }
+            50% { box-shadow: 0 20px 35px -5px rgba(56, 189, 248, 0.4), 0 0 25px rgba(129, 140, 248, 0.6); }
+        }
+
+        .float-bg-1 { animation: float-slow 9s ease-in-out infinite; }
+        .float-bg-2 { animation: float-medium 7s ease-in-out infinite; }
+        .pulse-btn { animation: pulse-soft 2s ease-in-out infinite; }
+        .wiggle-effect { animation: wiggle 2.5s ease-in-out infinite; }
+        .glow-card { animation: card-glow 4s ease-in-out infinite; }
+
+        /* Cake Animations */
+        @keyframes rise-up {
+            0% { transform: translateY(400px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes drop-down {
+            0% { transform: translateY(-400px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes scale-sparkle {
+            0% { transform: scale(0); opacity: 0; }
+            70% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes candle-flicker {
+            0%, 100% { transform: scale(1) skewX(2deg); filter: blur(0.5px) drop-shadow(0 0 6px rgba(253, 224, 71, 0.9)); }
+            50% { transform: scale(1.1) skewX(-2deg); filter: blur(0.2px) drop-shadow(0 0 14px rgba(253, 224, 71, 1)); }
+        }
+
+        .cake-layer-1 { animation: rise-up 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .cake-layer-2 { animation: drop-down 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards; opacity: 0; }
+        .cake-layer-3 { animation: scale-sparkle 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.1s forwards; opacity: 0; }
+        .decorations { animation: scale-sparkle 0.8s ease-out 1.8s forwards; opacity: 0; }
+        
+        .candle-flame {
+            animation: candle-flicker 0.6s ease-in-out infinite alternate;
+        }
+
+        /* Full Screen Sliding Door Transition Style */
+        .door-left, .door-right {
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            will-change: transform;
+        }
+        .doors-open .door-left {
+            transform: translateX(-100%);
+        }
+        .doors-open .door-right {
+            transform: translateX(100%);
+        }
+
+        /* Screen Transition Setup */
+        .page-screen {
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .page-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.97) translateY(15px);
+            position: absolute;
+            width: 100%;
+            z-index: -10;
+        }
+
+        /* Sparkle Canvas layer */
+        #sparkleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Cute Polaroid entry styling (used on page5 choice cards) */
+        .polaroid-card {
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: scale(0.8) translateY(30px);
+        }
+        .polaroid-card.loaded {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .polaroid-card:hover {
+            transform: scale(1.05) rotate(1.5deg) translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(56, 189, 248, 0.3);
+        }
+
+        /* ---- 3D POLAROID DECK STACK ---- */
+        #deckStage {
+            position: relative;
+            width: min(80vw, 280px);
+            height: min(calc(80vw * 1.21), 340px);
+            perspective: 900px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .deck-card {
+            position: absolute;
+            width: min(80vw, 280px);
+            background: #fff;
+            border-radius: 12px;
+            padding: 14px 14px 52px 14px;
+            box-shadow: 0 18px 40px -10px rgba(0,0,0,0.18);
+            transition: transform 0.5s cubic-bezier(0.4,0,0.2,1),
+                        opacity 0.5s ease,
+                        box-shadow 0.4s ease;
+            transform-origin: center bottom;
+            will-change: transform;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .deck-card img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+        }
+        .deck-card .card-placeholder {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 6px;
+            background: linear-gradient(135deg,#e0f2fe,#e0e7ff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .deck-card .card-caption {
+            position: absolute;
+            bottom: 10px;
+            left: 0; right: 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #334155;
+            letter-spacing: 0.02em;
+        }
+        .deck-card .card-sub {
+            position: absolute;
+            bottom: -4px;
+            left: 0; right: 0;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+            padding-bottom: 6px;
+        }
+        /* depth layers */
+        .deck-card[data-layer="0"] {
+            transform: translateY(0px) scale(1) rotate(var(--rot));
+            z-index: 10;
+            box-shadow: 0 24px 50px -10px rgba(56,189,248,0.25);
+        }
+        .deck-card[data-layer="1"] {
+            transform: translateY(12px) scale(0.96) rotate(calc(var(--rot) * -0.6));
+            z-index: 9;
+        }
+        .deck-card[data-layer="2"] {
+            transform: translateY(22px) scale(0.92) rotate(calc(var(--rot) * 0.4));
+            z-index: 8;
+        }
+        .deck-card[data-layer="3"] {
+            transform: translateY(30px) scale(0.88) rotate(0deg);
+            z-index: 7;
+            opacity: 0.7;
+        }
+        .deck-card[data-layer="4"],
+        .deck-card[data-layer="5"],
+        .deck-card[data-layer="6"] {
+            transform: translateY(36px) scale(0.85);
+            z-index: 6;
+            opacity: 0;
+            pointer-events: none;
+        }
+        @keyframes deck-drop {
+            0%   { transform: translateY(0px) scale(1) rotate(var(--rot)); opacity: 1; }
+            40%  { transform: translateY(80px) scale(0.9) rotate(calc(var(--rot) + 8deg)); opacity: 0.6; }
+            100% { transform: translateY(500px) scale(0.75) rotate(calc(var(--rot) - 6deg)); opacity: 0; }
+        }
+        .deck-dropping {
+            animation: deck-drop 0.55s cubic-bezier(0.4,0,1,1) forwards;
+            z-index: 20 !important;
+            pointer-events: none;
+        }
+
+        /* Mobile: scale cake container down */
+        @media (max-width: 400px) {
+            .cake-outer { transform: scale(0.78); transform-origin: center bottom; }
+            #giftBox { width: 200px !important; height: 200px !important; }
+            .gift-stage { width: 260px !important; height: 260px !important; }
+        }
+        /* Touch-friendly tap targets */
+        button { touch-action: manipulation; }
+
+        /* Flash overlay */
+        #flashOverlay {
+            transition: opacity 0.3s ease-out;
+            pointer-events: none;
+        }
+
+        /* Floating particles behind cards */
+        .magical-glow {
+            filter: drop-shadow(0 0 15px rgba(147, 197, 253, 0.6));
+        }
+
+        /* Custom Box Open Animations */
+        @keyframes shake-box {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            20%, 60% { transform: rotate(-5deg) scale(1.02); }
+            40%, 80% { transform: rotate(5deg) scale(1.02); }
+        }
+        .shake-active {
+            animation: shake-box 0.6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- Canvas for Cursor Sparkles, Confetti & Fireworks -->
+    <canvas id="sparkleCanvas"></canvas>
+
+    <!-- Background Music Controller (Procedural Synthesizer) -->
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+        <button id="musicToggle" class="bg-white/90 backdrop-blur-md border border-sky-200/50 p-3.5 rounded-full shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all text-sky-600">
+            <i id="musicIcon" class="fa-solid fa-volume-xmark text-lg"></i>
+        </button>
+    </div>
+
+    <!-- Soft Pastel Floating Decorative Elements (Masculine / Cool Sky Blue Dream Theme) -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none opacity-50">
+        <!-- Clouds -->
+        <div class="absolute top-[8%] left-[5%] float-bg-1 text-white opacity-90">
+            <i class="fa-solid fa-cloud text-6xl md:text-8xl drop-shadow-sm text-sky-100/80"></i>
+        </div>
+        <div class="absolute bottom-[10%] right-[5%] float-bg-2 text-white opacity-80">
+            <i class="fa-solid fa-cloud text-7xl md:text-9xl drop-shadow-sm text-sky-200/60"></i>
+        </div>
+        <!-- Sparkling Elements -->
+        <div class="absolute top-[20%] right-[10%] float-bg-1 text-sky-400 opacity-60 text-2xl">
+            <i class="fa-solid fa-wand-magic-sparkles animate-pulse"></i>
+        </div>
+        <div class="absolute bottom-[25%] left-[8%] float-bg-2 text-indigo-400 opacity-60 text-3xl">
+            <i class="fa-solid fa-star animate-spin" style="animation-duration: 15s;"></i>
+        </div>
+        <!-- Cool Boy-friendly butterflies & hearts -->
+        <div class="absolute top-[40%] left-[12%] float-bg-2 text-sky-300 opacity-40 text-xl"><i class="fa-solid fa-heart"></i></div>
+        <div class="absolute bottom-[40%] right-[15%] float-bg-1 text-indigo-300 opacity-40 text-2xl"><i class="fa-solid fa-heart"></i></div>
+        <div class="absolute top-[12%] right-[35%] float-bg-2 text-sky-300 opacity-50 text-xl"><i class="fa-solid fa-butterfly"></i></div>
+        <div class="absolute bottom-[8%] left-[30%] float-bg-1 text-indigo-300 opacity-50 text-xl"><i class="fa-solid fa-butterfly"></i></div>
+    </div>
+
+    <!-- Custom Popups / Alerts container -->
+    <div id="customAlert" class="fixed top-6 left-1/2 transform -translate-x-1/2 -translate-y-20 bg-white/95 backdrop-blur-md border-2 border-sky-200 text-sky-800 font-bold px-6 py-3.5 rounded-full shadow-2xl z-50 flex items-center gap-3 transition-all duration-500 opacity-0 pointer-events-none">
+        <span id="alertIcon">✨</span>
+        <span id="alertMessage">Magic initialized!</span>
+    </div>
+
+    <!-- 0. LOADING SCREEN -->
+    <div id="loadingScreen" class="fixed inset-0 z-50 bg-gradient-to-tr from-sky-100 via-indigo-50 to-cyan-100 flex flex-col items-center justify-center transition-all duration-1000">
+        <div class="relative flex flex-col items-center">
+            <div class="w-20 h-20 border-4 border-sky-400 border-t-indigo-500 rounded-full animate-spin mb-6"></div>
+            <div class="absolute top-7 text-sky-500 animate-ping"><i class="fa-solid fa-heart text-2xl"></i></div>
+            <h2 class="text-2xl font-bold text-slate-700 animate-pulse text-center px-4">Preparing His Magical Birthday World... 🌟</h2>
+            <p class="text-sm text-slate-500 mt-2">Get ready for an epic, emotional journey!</p>
+        </div>
+    </div>
+
+    <!-- Sliding 3D Double Doors (For magical screen transitions) -->
+    <div id="doorOverlay" class="fixed inset-0 z-50 pointer-events-none flex overflow-hidden transition-all duration-500 opacity-0">
+        <div id="doorL" class="door-left w-1/2 h-full bg-gradient-to-r from-sky-400 to-indigo-500 border-r-2 border-sky-300 flex items-center justify-end pr-4 text-white shadow-2xl">
+            <div class="w-12 h-12 rounded-full bg-yellow-400 shadow-xl border-4 border-white flex items-center justify-center text-xl">
+                <i class="fa-solid fa-key text-yellow-800 animate-pulse"></i>
+            </div>
+        </div>
+        <div id="doorR" class="door-right w-1/2 h-full bg-gradient-to-l from-sky-400 to-indigo-500 border-l-2 border-sky-300 flex items-center justify-start pl-4 text-white shadow-2xl">
+            <div class="w-12 h-12 rounded-full bg-yellow-400 shadow-xl border-4 border-white"></div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="w-full max-w-4xl z-10 mx-auto flex flex-col items-center justify-center min-h-[85vh]">
+
+        <!-- ================= PAGE 1: LANDING PAGE ================= -->
+        <section id="page1" class="page-screen w-full flex flex-col items-center justify-center text-center px-4 py-8">
+            <h1 class="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-sky-600 via-indigo-600 to-cyan-600 bg-clip-text text-transparent mb-6 drop-shadow-sm font-sans tracking-tight">
+                A Magical Surprise Awaits Him 🌟
+            </h1>
+            <p class="text-slate-600 text-md md:text-lg mb-10 max-w-lg">
+                Your closest friend has built something extraordinary to celebrate you. Click the "19" candle below to open the magic... ✨
+            </p>
+
+            <!-- Interactive Cake Container -->
+            <div class="cake-outer relative w-72 h-96 flex flex-col items-center justify-end mb-10 select-none">
+                
+                <!-- Single Candle Shaped Like "19" -->
+                <div id="candleContainer" class="decorations absolute top-[110px] z-40 cursor-pointer group flex flex-col items-center select-none" onclick="triggerCandleMagic()">
+                    <!-- Flame -->
+                    <div id="candleFlame" class="candle-flame w-4.5 h-10 bg-gradient-to-t from-yellow-300 via-orange-400 to-red-500 rounded-full absolute -top-9 transition-all duration-500"></div>
+                    <!-- SVG Candle (Dynamic Path Change) -->
+                    <div id="candleBody" class="w-14 h-16 transition-all duration-700 transform hover:scale-110">
+                        <svg id="candleSvg" viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_5px_12px_rgba(56,189,247,0.5)]">
+                            <!-- 19 Path Default -->
+                            <path id="candlePath" d="M25,20 L35,20 L35,80 L25,80 M35,20 L25,30 M55,40 Q65,20 75,30 Q80,45 65,60 Q55,70 55,80" 
+                                  fill="none" stroke="url(#candleGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="candleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#38bdf8" />
+                                    <stop offset="100%" stop-color="#4f46e5" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <span class="absolute -bottom-6 text-xs text-sky-600 font-bold tracking-wider uppercase group-hover:text-indigo-600 transition-colors">Click Candle 19!</span>
+                </div>
+
+                <!-- Cake Layer 3 (Top) -->
+                <div class="cake-layer-3 w-40 h-16 bg-gradient-to-r from-sky-200 to-sky-300 rounded-t-xl rounded-b-md relative z-30 shadow-md border-b-4 border-sky-400">
+                    <!-- Frosting Drops -->
+                    <div class="absolute -bottom-1 left-0 w-full flex justify-between px-1">
+                        <div class="w-4 h-6 bg-white rounded-b-full shadow-inner"></div>
+                        <div class="w-5 h-8 bg-white rounded-b-full shadow-inner"></div>
+                        <div class="w-3 h-5 bg-white rounded-b-full shadow-inner"></div>
+                        <div class="w-4 h-7 bg-white rounded-b-full shadow-inner"></div>
+                        <div class="w-5 h-9 bg-white rounded-b-full shadow-inner"></div>
+                        <div class="w-4 h-5 bg-white rounded-b-full shadow-inner"></div>
+                    </div>
+                    <!-- Toppings -->
+                    <div class="decorations absolute top-2 left-4 w-2 h-2 bg-yellow-300 rounded-full"></div>
+                    <div class="decorations absolute top-3 right-6 w-3 h-1.5 bg-indigo-400 rounded-full"></div>
+                    <div class="decorations absolute top-1 left-1/2 w-2 h-2 bg-emerald-400 rounded-full"></div>
+                </div>
+
+                <!-- Cake Layer 2 (Middle) -->
+                <div class="cake-layer-2 w-56 h-20 bg-gradient-to-r from-indigo-100 to-indigo-200 rounded-t-xl rounded-b-md relative z-20 shadow-md border-b-4 border-indigo-300">
+                    <div class="absolute top-3 left-0 w-full h-4 bg-white/90"></div>
+                    <div class="decorations absolute -top-3 left-6 text-lg text-sky-400"><i class="fa-solid fa-cookie"></i></div>
+                    <div class="decorations absolute -top-3 right-6 text-lg text-sky-400"><i class="fa-solid fa-cookie"></i></div>
+                    <div class="decorations absolute -top-3 left-1/2 -translate-x-1/2 text-lg text-amber-400"><i class="fa-solid fa-star"></i></div>
+                </div>
+
+                <!-- Cake Layer 1 (Base Layer) -->
+                <div class="cake-layer-1 w-64 h-24 bg-gradient-to-r from-sky-100 to-sky-200 rounded-t-2xl rounded-b-lg relative z-10 shadow-lg border-b-4 border-sky-300">
+                    <div class="absolute top-4 left-0 w-full h-6 bg-white/70 flex justify-around items-center">
+                        <span class="w-3 h-3 bg-sky-300 rounded-full"></span>
+                        <span class="w-3 h-3 bg-indigo-300 rounded-full"></span>
+                        <span class="w-3 h-3 bg-emerald-300 rounded-full"></span>
+                        <span class="w-3 h-3 bg-yellow-300 rounded-full"></span>
+                    </div>
+                </div>
+
+                <!-- Plate -->
+                <div class="w-72 h-4 bg-slate-300/80 backdrop-blur-sm rounded-full relative z-0 shadow-lg animate-pulse"></div>
+            </div>
+
+            <!-- Revealing Action Panel -->
+            <div id="birthdayRevealPanel" class="opacity-0 scale-95 pointer-events-none transition-all duration-1000 flex flex-col items-center">
+                <h2 id="revealText" class="text-4xl md:text-5xl font-black text-sky-600 mb-6 drop-shadow-md select-none font-sans">
+                    Happy 20th Birthday! 🎂✨
+                </h2>
+                <button onclick="goToPage('page2')" class="pulse-btn bg-gradient-to-r from-sky-400 via-indigo-400 to-cyan-500 hover:from-sky-500 hover:to-cyan-600 text-white font-extrabold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
+                    Start Your Birthday Adventure <i class="fa-solid fa-heart animate-pulse"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: SECURE PASSWORD PAGE ================= -->
+        <section id="page2" class="page-screen page-hidden w-full max-w-md mx-auto flex flex-col items-center justify-center px-4 py-8 relative min-h-[500px]">
+            
+            <div class="bg-white/95 backdrop-blur-md border border-sky-100 p-6 md:p-8 rounded-3xl shadow-xl w-full text-center flex flex-col items-center relative z-20">
+                <div class="w-20 h-20 bg-sky-100 text-sky-500 rounded-full flex items-center justify-center text-3xl mb-6 shadow-inner wiggle-effect">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">A special surprise is waiting for you 💌</h2>
+                <p class="text-sm text-slate-500 mb-6">Enter the secret birthday code below</p>
+
+                <!-- Input Box -->
+                <div class="w-full relative mb-6">
+                    <input type="password" id="passwordInput" placeholder="Enter Secret Code..." 
+                           class="w-full text-center py-4 pl-6 pr-12 rounded-2xl border-2 border-sky-200 outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 transition-all font-bold text-xl tracking-widest text-slate-700 placeholder-slate-400 shadow-sm">
+                    <button type="button" onclick="togglePasswordVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-sky-600 transition-colors">
+                        <i id="eyeIcon" class="fa-solid fa-eye-slash text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Action Button -->
+                <button onclick="verifyPassword()" class="w-full bg-gradient-to-r from-sky-400 to-indigo-500 hover:from-sky-500 hover:to-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-md tracking-wider flex items-center justify-center gap-2">
+                    Unlock Magical Memories <i class="fa-solid fa-key text-yellow-300"></i>
+                </button>
+
+                <p id="passwordError" class="text-rose-500 font-semibold mt-4 text-sm opacity-0 transition-opacity duration-300">
+                    Oopsie! That's not the secret password 🥺
+                </p>
+
+                <div class="mt-6 text-xs text-slate-400">
+                    <p>Hint: The code is a digit may be 3 or 4 numbers guess it😊</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 3: ENTRY QUESTION PAGE ================= -->
+        <section id="page3" class="page-screen page-hidden w-full max-w-md mx-auto flex flex-col items-center justify-center px-4 py-8">
+            <div class="bg-white/90 backdrop-blur-md border border-sky-100 p-6 md:p-8 rounded-3xl shadow-xl w-full text-center flex flex-col items-center">
+                
+                <div class="w-20 h-20 mb-5 select-none animate-bounce">
+                    <img src="https://placehold.co/150/e0f2fe/0284c7?text=🥺💙" class="rounded-full w-full h-full object-cover border-4 border-white shadow-md" alt="cute emoji">
+                </div>
+
+                <h3 class="text-sky-500 uppercase tracking-widest text-xs font-bold mb-2">Before entering your birthday world...</h3>
+                <h2 class="text-3xl font-extrabold text-slate-800 mb-8 leading-tight">Do you really want to go inside? 🥺💖</h2>
+
+                <!-- Two options -->
+                <div class="w-full flex flex-col gap-4">
+                    <button onclick="goToPage('page4')" class="w-full bg-gradient-to-r from-sky-400 to-indigo-400 hover:from-sky-500 hover:to-indigo-500 text-white font-extrabold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2 text-lg">
+                        YES 💖
+                    </button>
+                    <button onclick="goToPage('page4')" class="w-full bg-gradient-to-r from-indigo-400 to-sky-500 hover:from-indigo-500 hover:to-sky-600 text-white font-extrabold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2 text-lg">
+                        OF COURSE 💖
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 4: WISH PAGE ================= -->
+        <section id="page4" class="page-screen page-hidden w-full max-w-xl mx-auto flex flex-col items-center justify-center px-4 py-8">
+            <div class="bg-white/90 backdrop-blur-md border border-indigo-100 p-6 md:p-8 rounded-3xl shadow-xl w-full text-center flex flex-col items-center">
+                
+                <!-- Input State Frame -->
+                <div id="wishInputArea" class="w-full flex flex-col items-center">
+                    <div class="w-20 h-20 bg-sky-100 text-sky-500 rounded-full flex items-center justify-center text-3xl mb-6 shadow-inner animate-pulse">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-2">Make a Wish ✨</h2>
+                    <p class="text-slate-500 mb-6 max-w-sm">Tell me one wish that would truly make you happy. I will catch it in a bottle and keep it safe forever.</p>
+
+                    <!-- Textarea -->
+                    <div class="w-full mb-6">
+                        <textarea id="wishTextarea" rows="4" placeholder="Type your magical wish here... 🌌"
+                                  class="w-full p-5 rounded-2xl border-2 border-sky-100 outline-none focus:border-sky-400 focus:ring-4 focus:ring-sky-100 transition-all font-semibold text-slate-700 placeholder-slate-400 text-lg shadow-inner resize-none"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button onclick="submitWish()" id="wishSubmitBtn" class="w-full bg-gradient-to-r from-sky-400 to-indigo-500 hover:from-sky-500 hover:to-indigo-600 text-white font-extrabold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-md tracking-wider flex items-center justify-center gap-2">
+                        Send My Wish 💌
+                    </button>
+                </div>
+
+                <!-- Post-Submission Success Panel -->
+                <div id="wishSuccessPanel" class="hidden flex flex-col items-center w-full animate-fade-in">
+                    <div class="w-24 h-24 mb-6 relative">
+                        <!-- Floating graphic -->
+                        <div class="absolute inset-0 bg-sky-200 rounded-full animate-ping opacity-40"></div>
+                        <div class="w-24 h-24 bg-gradient-to-tr from-sky-400 to-indigo-500 rounded-full flex items-center justify-center text-white text-4xl shadow-lg">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-3xl font-bold text-sky-600 mb-2">Captured! 🌟</h2>
+                    <p class="text-slate-700 font-extrabold text-lg px-4 mb-8">
+                        "Your wish has safely reached me 💖"
+                    </p>
+                    
+                    <button onclick="goToPage('page5')" class="pulse-btn w-full max-w-sm bg-gradient-to-r from-sky-400 via-indigo-500 to-cyan-500 text-white font-extrabold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-md">
+                        Continue to Pathways 🚀
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: CHOOSE SURPRISE PAGE ================= -->
+        <section id="page5" class="page-screen page-hidden w-full flex flex-col items-center justify-center px-4 py-8">
+            <h2 class="text-2xl md:text-4xl font-extrabold text-slate-800 text-center mb-2">Choose Your Pathway 🗺️</h2>
+            <p class="text-slate-500 text-center mb-8 md:mb-12 max-w-md text-sm md:text-base">There are multiple magical streams waiting for you today. Pick where you would like to travel first.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-3xl">
+                <!-- Choice Card 1: Memory Camera -->
+                <div onclick="openMemorySection()" class="polaroid-card glow-card loaded cursor-pointer bg-white border border-sky-100 p-6 md:p-8 rounded-3xl flex flex-col items-center text-center hover:bg-sky-50/50 transition-all duration-300">
+                    <div class="w-16 h-16 md:w-24 md:h-24 bg-sky-100 rounded-full flex items-center justify-center mb-4 md:mb-6 text-sky-500 text-3xl md:text-4xl shadow-md">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">📸 Memory Camera</h3>
+                    <p class="text-sm text-slate-500">Step back in time to view our funniest, sweetest, and most memorable snapshots together.</p>
+                </div>
+
+                <!-- Choice Card 2: Surprise Box -->
+                <div onclick="openSurpriseBoxSection()" class="polaroid-card glow-card loaded cursor-pointer bg-white border border-indigo-100 p-6 md:p-8 rounded-3xl flex flex-col items-center text-center hover:bg-indigo-50/50 transition-all duration-300">
+                    <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-4 md:mb-6 text-indigo-500 text-3xl md:text-4xl shadow-md">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">🎁 Surprise Box</h3>
+                    <p class="text-sm text-slate-500">Unpack the giant digital mystery box loaded with sparkles, hearts, and hidden interactions.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SUB-PAGE 5A: MEMORY GALLERY ================= -->
+        <section id="sectionCamera" class="page-screen page-hidden w-full flex flex-col items-center px-3 py-6">
+            <div class="flex items-center justify-between w-full max-w-4xl mb-6">
+                <button onclick="goToPage('page5')" class="text-sky-600 hover:text-sky-800 font-bold flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-sky-100 shadow-md">
+                    <i class="fa-solid fa-chevron-left"></i> Go Back
+                </button>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 flex items-center gap-2">
+                    Our Scrapbook 📸
+                </h2>
+                <div class="w-24"></div>
+            </div>
+
+            <!-- Deck hint + counter -->
+            <p class="text-slate-500 text-sm mb-2 text-center">Tap the card to flip through memories ✨</p>
+            <p id="deckCounter" class="text-sky-600 font-bold text-xs mb-8 tracking-widest uppercase">Card 1 of 7</p>
+
+            <!-- 3D Polaroid Deck Stage -->
+            <div id="deckStage" onclick="deckFlipTop()" ontouchend="deckFlipTop()">
+                <!-- Cards injected by JS -->
+            </div>
+
+            <!-- Swipe hint icon -->
+            <div class="mt-12 md:mt-16 flex flex-col items-center gap-2 text-slate-400 text-xs animate-bounce select-none">
+                <i class="fa-solid fa-hand-pointer text-xl text-sky-400"></i>
+                <span>Tap to reveal next memory</span>
+            </div>
+
+            <!-- Progression button -->
+            <button onclick="goToPage('page6')" class="pulse-btn bg-gradient-to-r from-sky-400 to-indigo-500 text-white font-extrabold text-sm md:text-md px-8 md:px-10 py-3 md:py-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all mt-8 md:mt-10 flex items-center gap-2">
+                Continue the Surprise <i class="fa-solid fa-angles-right"></i>
+            </button>
+        </section>
+
+        <!-- ================= SUB-PAGE 5B: SURPRISE GIFT BOX ================= -->
+        <section id="sectionBox" class="page-screen page-hidden w-full flex flex-col items-center justify-center px-4 py-8 min-h-[75vh]">
+            <div class="flex items-center justify-between w-full max-w-2xl mb-8">
+                <button onclick="goToPage('page5')" class="text-sky-600 hover:text-sky-800 font-bold flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-sky-100 shadow-md">
+                    <i class="fa-solid fa-chevron-left"></i> Go Back
+                </button>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">Uncover the Gift 🎁</h2>
+                <div class="w-16"></div>
+            </div>
+
+            <!-- Beautiful interactive gift box simulation in fullscreen concept container -->
+            <div class="gift-stage relative w-64 h-64 md:w-80 md:h-80 flex flex-col items-center justify-center select-none" id="giftBoxContainer">
+                
+                <!-- The Lid & Box Wrapper -->
+                <div id="giftBox" class="w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-indigo-500 via-sky-600 to-sky-500 rounded-2xl relative shadow-2xl transition-all duration-300">
+                    
+                    <!-- Ribbons (Horizontal and Vertical Crossing) -->
+                    <div id="ribbonHorizontal" class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-12 bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-400 shadow-inner z-10 transition-all duration-1000"></div>
+                    <div id="ribbonVertical" class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-12 bg-gradient-to-b from-yellow-300 via-yellow-400 to-amber-400 shadow-inner z-10 transition-all duration-1000"></div>
+                    
+                    <!-- The Big Bow on Top -->
+                    <div id="bowWrapper" class="absolute -top-12 left-1/2 -translate-x-1/2 z-20 transition-all duration-1000 flex items-center justify-center">
+                        <div class="w-16 h-16 bg-yellow-400 rounded-full shadow-md relative">
+                            <div class="absolute -left-10 top-1/2 -translate-y-1/2 w-12 h-12 bg-yellow-300 border-4 border-yellow-400 rounded-full"></div>
+                            <div class="absolute -right-10 top-1/2 -translate-y-1/2 w-12 h-12 bg-yellow-300 border-4 border-yellow-400 rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <!-- Ambient inner glow simulation (Invisible until trigger) -->
+                    <div id="boxLightGlow" class="absolute inset-0 bg-yellow-300/60 rounded-2xl opacity-0 transition-opacity duration-1000 blur-xl pointer-events-none"></div>
+                </div>
+
+                <!-- Open Button -->
+                <button onclick="unleashGiftContent()" id="boxOpenBtn" class="mt-8 px-8 py-3.5 bg-gradient-to-r from-sky-400 to-indigo-500 hover:from-sky-500 hover:to-indigo-600 text-white font-extrabold rounded-full shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all text-sm tracking-widest flex items-center gap-2">
+                    OPEN GIFT 🎀
+                </button>
+            </div>
+
+            <!-- Gift Unboxed Reveal Panel -->
+            <div id="unboxedResultPanel" class="hidden flex-col items-center text-center mt-6 w-full max-w-md animate-fade-in z-30">
+                <h3 class="text-3xl font-black text-sky-600 mb-2">Do you want a surprise? 👀💖</h3>
+                <p class="text-slate-500 text-sm mb-6">A magical final destination has unlocked.</p>
+                
+                <button onclick="goToPage('page6')" class="pulse-btn bg-gradient-to-r from-sky-500 via-indigo-500 to-cyan-500 hover:from-sky-600 hover:to-cyan-600 text-white font-extrabold text-lg px-10 py-4 rounded-full shadow-lg hover:shadow-2xl transition-all flex items-center gap-2">
+                    YES 💖
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 6: QUOTE PAGE ================= -->
+        <section id="page6" class="page-screen page-hidden w-full max-w-xl mx-auto flex flex-col items-center justify-center px-4 py-8">
+            <div class="bg-white/90 backdrop-blur-md border border-sky-100 p-6 md:p-8 rounded-3xl shadow-xl w-full text-center flex flex-col items-center">
+                
+                <div id="quoteInputArea" class="w-full flex flex-col items-center">
+                    <div class="w-20 h-20 bg-sky-100 text-sky-500 rounded-full flex items-center justify-center text-3xl mb-6 shadow-inner animate-bounce">
+                        <i class="fa-solid fa-pen-fancy"></i>
+                    </div>
+
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-2">Beautiful Words 📝</h2>
+                    <p class="text-slate-500 mb-6 max-w-sm">If you want your surprise, write a beautiful quote for me 💌</p>
+
+                    <!-- Textarea -->
+                    <div class="w-full mb-6">
+                        <textarea id="quoteTextarea" rows="4" placeholder="Share a classic quote or personal thoughts..."
+                                  class="w-full p-5 rounded-2xl border-2 border-sky-100 outline-none focus:border-sky-400 focus:ring-4 focus:ring-sky-100 transition-all font-semibold text-slate-700 placeholder-slate-400 text-lg shadow-inner resize-none"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button onclick="submitQuote()" id="quoteSubmitBtn" class="w-full bg-gradient-to-r from-sky-400 to-indigo-500 hover:from-sky-500 hover:to-indigo-600 text-white font-extrabold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-md tracking-wider flex items-center justify-center gap-2">
+                        Submit Quote 🎀
+                    </button>
+                </div>
+
+                <!-- Success Box -->
+                <div id="quoteSuccessPanel" class="hidden flex flex-col items-center mt-6 w-full animate-fade-in">
+                    <div class="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center text-3xl mb-6">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    
+                    <h2 class="text-2xl font-bold text-slate-800 mb-3">Beautiful! ✨</h2>
+                    <p class="text-emerald-800 font-bold text-lg mb-8 px-4">
+                        "I hope you wrote a good and impressive quote for me 💖✨"
+                    </p>
+                    
+                    <button onclick="goToPage('page7')" class="pulse-btn w-full bg-gradient-to-r from-sky-500 to-indigo-500 text-white font-extrabold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-md">
+                        Unveil the Grand Finale 👑
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 7: THE FINAL EMOTIONAL SURPRISE ================= -->
+        <section id="page7" class="page-screen page-hidden w-full flex flex-col items-center justify-center px-4 py-8">
+            
+            <!-- Timed sequence container -->
+            <div id="finalTextSequence" class="w-full max-w-2xl text-center min-h-[260px] md:min-h-[300px] flex items-center justify-center flex-col px-2">
+                <h2 id="seqText" class="text-2xl md:text-5xl font-extrabold text-sky-700 select-none leading-relaxed transition-all duration-1000 drop-shadow">
+                    One last thing... 💖
+                </h2>
+                 <p class="text-slate-600 text-sm md:text-lg font-semibold mb-4 px-2">And this is made only for you and it is my own code no ai or nothing.</p>
+                 <p class="text-slate-600 text-sm md:text-lg font-semibold mb-4 px-2">And it took around 1 month i started taking all this before the 1 month and yes go to the suprise and it also same i just done before one month itself (❁´◡`❁)</p>
+            </div>
+
+            <!-- Grand Final Video Reveal Frame -->
+            <div id="finalVideoReveal" class="hidden flex-col items-center w-full max-w-3xl text-center animate-fade-in">
+                
+                <!-- Celebratory Titles -->
+                <h1 class="text-4xl md:text-6xl font-black bg-gradient-to-r from-sky-600 via-indigo-500 to-cyan-600 bg-clip-text text-transparent mb-4 tracking-tight drop-shadow-md">
+                    🎉 HAPPY 20TH BIRTHDAY 🎉
+                </h1>
+                <p class="text-slate-600 text-lg font-semibold mb-8">May all your dreams come true 💖 </p>
+                
+
+                <!-- Responsive Video Container -->
+                <div class="w-full max-w-xs md:max-w-sm mx-auto bg-slate-950 rounded-3xl shadow-2xl border-4 border-sky-200 overflow-hidden relative mb-8 md:mb-12" style="aspect-ratio: 9/16;">
+                    <iframe id="finalVideoFrame" class="w-full h-full" 
+                            src="https://drive.google.com/file/d/178s5t1oKZOPI5aMX7wUP8-V8R3ElbMqM/preview"
+                            allow="autoplay" allowfullscreen frameborder="0"></iframe>
+                </div>
+
+                <!-- Footer Scrapbook details -->
+                <div class="bg-white/90 backdrop-blur-md p-8 rounded-3xl border border-sky-100 shadow-xl w-full max-w-2xl">
+                    <h3 class="text-2xl font-bold text-sky-600 mb-4 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cake-candles"></i> A Toast to Turning 20!
+                    </h3>
+                    <p class="text-slate-600 mb-6 leading-relaxed text-sm md:text-base">
+                        Today, you officially enter a beautiful new decade. You are intelligent, strong, extremely caring, and truly one of a kind. This space was designed step-by-step just for you to realize how special you are. Enjoy every minute of your 20s!
+                    </p>
+                    <div class="flex justify-center gap-4 text-sky-400 text-2xl animate-pulse">
+                        <i class="fa-solid fa-heart"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-gift"></i>
+                        <i class="fa-solid fa-champagne-glasses"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Camera flash element overlay -->
+    <div id="flashOverlay" class="fixed inset-0 bg-white opacity-0 z-50 transition-opacity"></div>
+
+    <script>
+        const PAGES = ['page1', 'page2', 'page3', 'page4', 'page5', 'sectionCamera', 'sectionBox', 'page6', 'page7'];
+
+        // Audio System
+        let audioCtx = null;
+        let melodyInterval = null;
+        let isPlaying = false;
+
+        function showCustomAlert(message, icon = "✨") {
+            const alertBox = document.getElementById('customAlert');
+            document.getElementById('alertIcon').innerText = icon;
+            document.getElementById('alertMessage').innerText = message;
+            
+            alertBox.style.opacity = '1';
+            alertBox.style.transform = 'translate(-50%, 0)';
+            
+            setTimeout(() => {
+                alertBox.style.opacity = '0';
+                alertBox.style.transform = 'translate(-50%, -20px)';
+            }, 3500);
+        }
+
+        function initAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playTone(freq, duration, type = "sine", volume = 0.1) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            
+            gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function toggleMusic() {
+            initAudio();
+            const icon = document.getElementById('musicIcon');
+            
+            if (isPlaying) {
+                clearInterval(melodyInterval);
+                isPlaying = false;
+                icon.className = "fa-solid fa-volume-xmark text-lg";
+                showCustomAlert("Music muted 🔇", "🔇");
+            } else {
+                isPlaying = true;
+                icon.className = "fa-solid fa-volume-high text-lg";
+                showCustomAlert("Soothing birthday melody playing... 🎵", "🎵");
+                
+                const scale = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25]; // C major
+                let step = 0;
+                
+                melodyInterval = setInterval(() => {
+                    playTone(scale[step % scale.length], 0.8, "sine", 0.08);
+                    if (Math.random() > 0.5) {
+                        const harmonyIdx = (step + 2) % scale.length;
+                        playTone(scale[harmonyIdx], 1.2, "triangle", 0.04);
+                    }
+                    step = (step + Math.floor(Math.random() * 3) + 1) % scale.length;
+                }, 1000);
+            }
+        }
+
+        document.getElementById('musicToggle').addEventListener('click', toggleMusic);
+
+        // Particle systems for Canvas (Cursor trails, sparkles, fireworks)
+        const canvas = document.getElementById('sparkleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, color = null, speedYScale = 1) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 2;
+                this.speedX = Math.random() * 4 - 2;
+                this.speedY = (Math.random() * -3 - 1) * speedYScale;
+                this.color = color || `hsla(${Math.random() * 360}, 100%, 75%, ${Math.random() * 0.5 + 0.5})`;
+                this.life = 100;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= 1.2;
+                if (this.size > 0.2) this.size -= 0.04;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            for (let i = 0; i < 2; i++) {
+                particles.push(new Particle(mouse.x, mouse.y, null, 0.4));
+            }
+        });
+
+        function triggerMagicExplosion(x, y, multiplier = 40) {
+            initAudio();
+            if (audioCtx) {
+                playTone(523.25, 0.4, "sine", 0.1);
+                playTone(659.25, 0.4, "sine", 0.1);
+                playTone(783.99, 0.6, "sine", 0.1);
+            }
+            const colors = ['#38bdf8', '#4f46e5', '#34d399', '#facc15', '#f87171', '#a78bfa'];
+            for (let i = 0; i < multiplier; i++) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particles.push(new Particle(x, y, color, -1.8));
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].life <= 0 || particles[i].size <= 0.1) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        function goToPage(pageId) {
+            initAudio();
+            PAGES.forEach(id => {
+                const page = document.getElementById(id);
+                if (id === pageId) {
+                    page.classList.remove('page-hidden');
+                    triggerMagicExplosion(window.innerWidth / 2, window.innerHeight / 2, 25);
+                    
+                    if (pageId === 'page2') {
+                        setTimeout(() => {
+                            const pwInput = document.getElementById('passwordInput');
+                            if (pwInput) pwInput.focus();
+                        }, 300);
+                    }
+                } else {
+                    page.classList.add('page-hidden');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            setTimeout(() => {
+                const loader = document.getElementById('loadingScreen');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.style.display = 'none', 1000);
+                }
+            }, 1200);
+        };
+
+        // ================= PAGE 1: CAKE =================
+        let isTransformed = false;
+        function triggerCandleMagic() {
+            if (isTransformed) return;
+            isTransformed = true;
+            
+            triggerMagicExplosion(window.innerWidth / 2, window.innerHeight / 2 - 100, 60);
+            
+            const flame = document.getElementById('candleFlame');
+            if (flame) flame.style.opacity = '0';
+
+            const path = document.getElementById('candlePath');
+            if (path) {
+                path.setAttribute('d', 'M25,30 Q40,10 50,30 Q55,45 35,65 L55,65 M65,30 Q75,30 75,50 Q75,65 65,65 Q55,65 55,50 Q55,30 65,30');
+            }
+            
+            const panel = document.getElementById('birthdayRevealPanel');
+            if (panel) {
+                panel.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+            }
+            showCustomAlert("Magical transformation complete! 🎂✨", "🌟");
+        }
+
+        // ================= PAGE 2: PASSWORD =================
+        function togglePasswordVisibility() {
+            const pwInput = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (!pwInput || !eyeIcon) return;
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                eyeIcon.className = "fa-solid fa-eye text-lg text-sky-500";
+            } else {
+                pwInput.type = 'password';
+                eyeIcon.className = "fa-solid fa-eye-slash text-lg text-slate-400";
+            }
+        }
+
+        function verifyPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+            if (!input || !error) return;
+            const code = input.value.trim();
+
+            if (code === '163') {
+                error.classList.add('opacity-0');
+                
+                const doorOverlay = document.getElementById('doorOverlay');
+                if (doorOverlay) {
+                    doorOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                    doorOverlay.classList.remove('doors-open');
+                    
+                    if (audioCtx) {
+                        playTone(220, 0.25, "triangle", 0.15);
+                    }
+
+                    setTimeout(() => {
+                        goToPage('page3');
+                        doorOverlay.classList.add('doors-open');
+                        
+                        setTimeout(() => {
+                            triggerMagicExplosion(window.innerWidth / 2, window.innerHeight / 2, 80);
+                            showCustomAlert("Decrypted successfully! Welcome inside! 🔓✨", "🔑");
+                        }, 250);
+
+                        setTimeout(() => {
+                            doorOverlay.classList.add('opacity-0', 'pointer-events-none');
+                        }, 1400);
+                    }, 500);
+                } else {
+                    goToPage('page3');
+                }
+            } else {
+                error.classList.remove('opacity-0');
+                input.classList.add('animate-bounce');
+                setTimeout(() => input.classList.remove('animate-bounce'), 800);
+                showCustomAlert("Oopsie! Wrong Key 🥺", "❌");
+            }
+        }
+
+        // ================= PAGE 4: WISH SUBMISSION =================
+        function submitWish() {
+            const textarea = document.getElementById('wishTextarea');
+            if (!textarea) return;
+            const text = textarea.value.trim();
+            if (!text) {
+                showCustomAlert("Write a little magic wish first! ✨", "✍️");
+                return;
+            }
+
+            const submitBtn = document.getElementById('wishSubmitBtn');
+            if (!submitBtn) return;
+            submitBtn.innerHTML = "Sending to the stars... <i class='fa-solid fa-spinner animate-spin'></i>";
+            submitBtn.disabled = true;
+
+            fetch('/api/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'wish', text })
+            }).then(() => {
+                const doorOverlay = document.getElementById('doorOverlay');
+                if (doorOverlay) {
+                    doorOverlay.classList.remove('opacity-0', 'pointer-events-none', 'doors-open');
+                    if (audioCtx) { playTone(330, 0.3, "triangle", 0.15); playTone(440, 0.3, "triangle", 0.15); }
+                    setTimeout(() => {
+                        document.getElementById('wishInputArea').classList.add('hidden');
+                        document.getElementById('wishSuccessPanel').classList.remove('hidden');
+                        doorOverlay.classList.add('doors-open');
+                        setTimeout(() => { triggerMagicExplosion(window.innerWidth / 2, window.innerHeight / 2, 60); showCustomAlert("Wish sent & saved! 🌌", "💖"); }, 250);
+                        setTimeout(() => { doorOverlay.classList.add('opacity-0', 'pointer-events-none'); }, 1400);
+                    }, 800);
+                } else {
+                    document.getElementById('wishInputArea').classList.add('hidden');
+                    document.getElementById('wishSuccessPanel').classList.remove('hidden');
+                    showCustomAlert("Wish sent & saved! 🌌", "💖");
+                }
+            }).catch(() => {
+                submitBtn.innerHTML = "Send My Wish 💌";
+                submitBtn.disabled = false;
+                showCustomAlert("Could not send wish. Try again! ❌", "❌");
+            });
+        }
+
+        // ================= PAGE 5: SURPRISE PATHWAYS =================
+        function openMemorySection() {
+            const flash = document.getElementById('flashOverlay');
+            if (flash) flash.style.opacity = '1';
+            if (audioCtx) {
+                playTone(1200, 0.05, "sine", 0.2);
+                playTone(400, 0.1, "triangle", 0.15);
+            }
+            setTimeout(() => {
+                if (flash) flash.style.opacity = '0';
+                goToPage('sectionCamera');
+                initDeck();
+            }, 300);
+        }
+
+        function openSurpriseBoxSection() {
+            goToPage('sectionBox');
+        }
+
+        // ================= 3D POLAROID DECK ENGINE =================
+        const DECK_DATA = [
+            { src: 'images/looking.jpeg',           caption: 'tholainokku paarvai🤣',  sub: '✨' },
+            { src: 'images/smile.jpeg',             caption: 'sirippu🤣',              sub: '✨' },
+            { src: 'images/ambi.jpeg',              caption: 'ambi🤣🤣',                 sub: '✨' },
+            { src: 'images/glass.jpeg',             caption: 'glass😎',                sub: '✨' },
+            { src: 'images/ibaco.jpeg',             caption: 'ibaco🍨❤️',                sub: '✨' },
+            { src: 'images/rajina-mothvani.jpeg',   caption: 'rajina mothvani🤣',      sub: '✨' },
+            { src: 'images/sitting.jpeg',           caption: 'Setta thangamal veetula thorathi vitta tharunam🤣',              sub: '✨' },
+        ];
+        const CARD_ROTATIONS = [-3, 4, -2, 5, -1];
+        let deckOrder = DECK_DATA.map((_, i) => i); // index queue, front = top
+        let deckAnimating = false;
+
+        function buildCardEl(dataIdx, layer) {
+            const d = DECK_DATA[dataIdx];
+            const rot = CARD_ROTATIONS[dataIdx % CARD_ROTATIONS.length];
+            const el = document.createElement('div');
+            el.className = 'deck-card';
+            el.dataset.layer = layer;
+            el.dataset.idx = dataIdx;
+            el.style.setProperty('--rot', rot + 'deg');
+
+            const inner = d.src
+                ? `<img src="${d.src}" alt="${d.caption}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                   <div class="card-placeholder" style="display:none">
+                       <i class="fa-solid fa-image" style="font-size:2rem"></i>
+                       <span>${d.src}</span>
+                   </div>`
+                : `<div class="card-placeholder">
+                       <i class="fa-solid fa-image" style="font-size:2rem"></i>
+                       <span>${d.sub.replace(/"/g,'')}</span>
+                   </div>`;
+
+            el.innerHTML = `${inner}
+                <div class="card-caption">${d.caption}</div>
+                <div class="card-sub">${d.sub}</div>`;
+            return el;
+        }
+
+        function initDeck() {
+            deckOrder = DECK_DATA.map((_, i) => i);
+            deckAnimating = false;
+            const stage = document.getElementById('deckStage');
+            stage.innerHTML = '';
+            // render bottom→top so top card sits visually on top
+            const reversed = [...deckOrder].reverse();
+            reversed.forEach((dataIdx, i) => {
+                const layer = deckOrder.length - 1 - i;
+                stage.appendChild(buildCardEl(dataIdx, layer));
+            });
+            updateCounter();
+        }
+
+        function updateCounter() {
+            const el = document.getElementById('deckCounter');
+            if (el) el.textContent = `Card 1 of ${DECK_DATA.length}`;
+        }
+
+        function deckFlipTop() {
+            if (deckAnimating) return;
+            deckAnimating = true;
+
+            const stage = document.getElementById('deckStage');
+            // top card has data-layer="0"
+            const topCard = stage.querySelector('.deck-card[data-layer="0"]');
+            if (!topCard) { deckAnimating = false; return; }
+
+            // play tone
+            initAudio();
+            if (audioCtx) playTone(440, 0.25, 'sine', 0.07);
+
+            // sparkle burst
+            const r = topCard.getBoundingClientRect();
+            triggerMagicExplosion(r.left + r.width / 2, r.top + r.height / 2, 18);
+
+            // animate top card dropping
+            topCard.classList.add('deck-dropping');
+
+            // promote remaining cards up one layer
+            stage.querySelectorAll('.deck-card:not(.deck-dropping)').forEach(c => {
+                const l = parseInt(c.dataset.layer);
+                c.dataset.layer = l - 1;
+            });
+
+            setTimeout(() => {
+                // move this card's data index to end of deckOrder
+                const movedIdx = parseInt(topCard.dataset.idx);
+                deckOrder.splice(deckOrder.indexOf(movedIdx), 1);
+                deckOrder.push(movedIdx);
+
+                // rebuild new bottom card at highest layer number
+                const bottomLayer = deckOrder.length - 1;
+                const newCard = buildCardEl(movedIdx, bottomLayer);
+                topCard.remove();
+                stage.insertBefore(newCard, stage.firstChild);
+
+                // update counter to show current top
+                const counterEl = document.getElementById('deckCounter');
+                const topIdx = deckOrder[0];
+                if (counterEl) counterEl.textContent = `Card ${topIdx + 1} of ${DECK_DATA.length}`;
+
+                deckAnimating = false;
+            }, 560);
+        }
+
+        // ================= SUB-PAGE 5B: SURPRISE BOX OPEN =================
+        let isBoxOpened = false;
+        function unleashGiftContent() {
+            if (isBoxOpened) return;
+            isBoxOpened = true;
+
+            const box = document.getElementById('giftBox');
+            const ribbonH = document.getElementById('ribbonHorizontal');
+            const ribbonV = document.getElementById('ribbonVertical');
+            const bow = document.getElementById('bowWrapper');
+            const openBtn = document.getElementById('boxOpenBtn');
+            const glow = document.getElementById('boxLightGlow');
+
+            if (!box || !ribbonH || !ribbonV || !bow) return;
+
+            // Box shake animation sequence
+            box.classList.add('shake-active');
+            
+            setTimeout(() => {
+                box.classList.remove('shake-active');
+                
+                // Ribbons separate and slide off the box
+                ribbonH.style.transform = "translateX(-250px)";
+                ribbonV.style.transform = "translateY(250px)";
+                bow.style.transform = "translateY(-300px) rotate(45deg)";
+                bow.style.opacity = '0';
+                
+                // Turn on inside glow
+                if (glow) glow.style.opacity = '1';
+                
+                if (openBtn) openBtn.classList.add('hidden');
+
+                setTimeout(() => {
+                    // Exploding celebrations
+                    triggerMagicExplosion(window.innerWidth / 2, window.innerHeight / 2, 100);
+                    
+                    const resultPanel = document.getElementById('unboxedResultPanel');
+                    if (resultPanel) {
+                        resultPanel.classList.remove('hidden');
+                        resultPanel.classList.add('flex');
+                    }
+                    showCustomAlert("Gift unboxed successfully! 🎉", "🎁");
+                }, 800);
+            }, 1000);
+        }
+
+        // ================= PAGE 6: QUOTE =================
+        function submitQuote() {
+            const textarea = document.getElementById('quoteTextarea');
+            if (!textarea) return;
+            const text = textarea.value.trim();
+            if (!text) {
+                showCustomAlert("Write down a beautiful quote first! ✨", "✍️");
+                return;
+            }
+
+            const submitBtn = document.getElementById('quoteSubmitBtn');
+            if (!submitBtn) return;
+            submitBtn.innerHTML = "Recording quote... <i class='fa-solid fa-spinner animate-spin'></i>";
+            submitBtn.disabled = true;
+
+            fetch('/api/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'quote', text })
+            }).then(() => {
+                document.getElementById('quoteInputArea').classList.add('hidden');
+                document.getElementById('quoteSuccessPanel').classList.remove('hidden');
+                showCustomAlert("Quote sent & saved! 💖", "📝");
+                triggerMagicExplosion(window.innerWidth / 2, window.innerHeight / 2, 40);
+            }).catch(() => {
+                submitBtn.innerHTML = "Submit Quote 🎀";
+                submitBtn.disabled = false;
+                showCustomAlert("Could not send quote. Try again! ❌", "❌");
+            });
+        }
+
+        // ================= PAGE 7: EMOTIONAL FINAL SEQUENCE =================
+        let sequenceIndex = 0;
+        const sequenceTexts = [
+            "One last thing... 💖",
+            "Thank you for being part of my life.",
+            "You are truly special.",
+            "This surprise was made only for you.",
+            "May all your dreams come true! ✨"
+        ];
+
+        function startFinalSequence() {
+            const displayEl = document.getElementById('seqText');
+            if (!displayEl) return;
+            displayEl.innerText = sequenceTexts[sequenceIndex];
+            
+            const interval = setInterval(() => {
+                sequenceIndex++;
+                if (sequenceIndex < sequenceTexts.length) {
+                    displayEl.style.opacity = '0';
+                    setTimeout(() => {
+                        displayEl.innerText = sequenceTexts[sequenceIndex];
+                        displayEl.style.opacity = '1';
+                        if (audioCtx) {
+                            playTone(440 + (sequenceIndex * 80), 0.5, "sine", 0.08);
+                        }
+                    }, 500);
+                } else {
+                    clearInterval(interval);
+                    
+                    const seqStage = document.getElementById('finalTextSequence');
+                    if (seqStage) seqStage.style.display = 'none';
+                    
+                    const revealFrame = document.getElementById('finalVideoReveal');
+                    if (revealFrame) {
+                        revealFrame.classList.remove('hidden');
+                        revealFrame.classList.add('flex');
+                    }
+                    
+                    triggerFinalFireworks();
+                }
+            }, 4000);
+        }
+
+        function triggerFinalFireworks() {
+            let count = 0;
+            const fireworksTimer = setInterval(() => {
+                const rx = Math.random() * window.innerWidth;
+                const ry = Math.random() * (window.innerHeight - 200);
+                triggerMagicExplosion(rx, ry, 35);
+                count++;
+                if (count > 8) clearInterval(fireworksTimer);
+            }, 800);
+        }
+
+        const originalGoToPage = goToPage;
+        goToPage = function(pageId) {
+            originalGoToPage(pageId);
+            if (pageId === 'page7') {
+                startFinalSequence();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -6,9 +6,15 @@ require('dotenv').config();
 
 dns.setDefaultResultOrder('ipv4first');
 
+const path = require('path');
+
 const app = express();
 app.use(express.json());
-app.use(express.static('.'));
+app.use(express.static(path.join(__dirname)));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
